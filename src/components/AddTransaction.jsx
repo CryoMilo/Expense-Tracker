@@ -1,15 +1,34 @@
 import { useFormik } from "formik";
-import React from "react";
+import React, { useContext } from "react";
+import api from "../api/expenseList";
+import { GlobalContext } from "../context/GlobalState";
 
 function AddTransaction() {
+	const [expenses, setExpenses] = useContext(GlobalContext);
+	// const expenses = useContext(GlobalContext);
+
+	// Get data with Formik
 	let formik = useFormik({
 		initialValues: {
 			text: "",
 			amount: "",
 		},
-		onSubmit: (values, { resetForm }) => {
-			console.log(values);
-			resetForm();
+		onSubmit: async (values, { resetForm }) => {
+			try {
+				if (values === "") {
+					// Post inserted data to JSON API
+					const response = await api.post("/expenses", values);
+
+					// setExpenses new overall expenses
+					const allExpenses = [...expenses, response.data];
+					setExpenses(allExpenses);
+					resetForm();
+				} else {
+					alert("add something");
+				}
+			} catch (error) {
+				console.log("An error has occured " + error);
+			}
 		},
 	});
 
@@ -38,6 +57,7 @@ function AddTransaction() {
 						onChange={formik.handleChange}
 						id="amount"
 						placeholder="Enter amount..."
+						required
 					/>
 				</div>
 				<button type="submit" className="btn">

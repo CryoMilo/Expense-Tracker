@@ -149,3 +149,11 @@ input[type="number"] {
 .list li:hover .delete-btn {
 	opacity: 1;
 }
+
+.debt {
+	color: #c0392b;
+}
+
+.debt::after {
+	content: " (In Debt)";
+}
