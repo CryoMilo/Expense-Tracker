@@ -15,7 +15,7 @@ function AddTransaction() {
 		},
 		onSubmit: async (values, { resetForm }) => {
 			try {
-				if (values === "") {
+				if (values !== {}) {
 					// Post inserted data to JSON API
 					const response = await api.post("/expenses", values);
 
