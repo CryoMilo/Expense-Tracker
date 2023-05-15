@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import api from "../api/expenseList";
 import { GlobalContext } from "../context/GlobalState";
 
@@ -7,11 +7,19 @@ function AddTransaction() {
 	const [expenses, setExpenses] = useContext(GlobalContext);
 	// const expenses = useContext(GlobalContext);
 
+	const [selectedCurrency, setSelectedCurrency] = useState("");
+
+	const handleCurrencySelect = (currency) => {
+		setSelectedCurrency(currency);
+	};
+
 	// Get data with Formik
 	let formik = useFormik({
 		initialValues: {
 			text: "",
 			amount: "",
+			currency: "",
+			category: "",
 		},
 		onSubmit: async (values, { resetForm }) => {
 			try {
@@ -23,8 +31,6 @@ function AddTransaction() {
 					const allExpenses = [...expenses, response.data];
 					setExpenses(allExpenses);
 					resetForm();
-				} else {
-					alert("add something");
 				}
 			} catch (error) {
 				console.log("An error has occured " + error);
@@ -37,13 +43,13 @@ function AddTransaction() {
 			<h3>Add new transaction</h3>
 			<form id="form" onSubmit={formik.handleSubmit}>
 				<div className="form-control">
-					<label htmlFor="text">Text</label>
+					<label htmlFor="text">Item</label>
 					<input
 						type="text"
 						value={formik.values.text}
 						onChange={formik.handleChange}
 						id="text"
-						placeholder="Enter text..."
+						placeholder="Enter item..."
 					/>
 				</div>
 				<div className="form-control">
@@ -57,7 +63,42 @@ function AddTransaction() {
 						onChange={formik.handleChange}
 						id="amount"
 						placeholder="Enter amount..."
-						required
+					/>
+				</div>
+				<div className="form-control">
+					<label htmlFor="currency">Currency</label>
+					<div className="currencyBtnWrapper">
+						<button
+							className={`currencyBtn ${
+								selectedCurrency === "$" ? "selected" : ""
+							}`}
+							onClick={() => handleCurrencySelect("$")}>
+							$
+						</button>
+						<button
+							className={`currencyBtn ${
+								selectedCurrency === "฿" ? "selected" : ""
+							}`}
+							onClick={() => handleCurrencySelect("฿")}>
+							฿
+						</button>
+						<button
+							className={`currencyBtn ${
+								selectedCurrency === "₹" ? "selected" : ""
+							}`}
+							onClick={() => handleCurrencySelect("₹")}>
+							₹
+						</button>
+					</div>
+				</div>
+				<div className="form-control">
+					<label htmlFor="category">Category</label>
+					<input
+						type="text"
+						value={formik.values.category}
+						onChange={formik.handleChange}
+						id="category"
+						placeholder="Enter category..."
 					/>
 				</div>
 				<button type="submit" className="btn">
