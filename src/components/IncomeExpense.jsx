@@ -2,10 +2,6 @@ import React, { useContext } from "react";
 import { GlobalContext } from "../context/GlobalState";
 
 function IncomeExpense() {
-	// Get usuage data
-	// const expenses = useContext(GlobalContext);
-	const [expenses, setExpenses] = useContext(GlobalContext);
-
 	// Total Balance
 	let amounts = [];
 	for (let i = 0; i < expenses.length; i++) {

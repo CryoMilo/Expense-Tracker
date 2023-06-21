@@ -25,6 +25,14 @@ body {
 	align-items: flex-start;
 }
 
+@media screen and (max-width: 700px) {
+	.layout {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+}
+
 .balanceLayout {
 	display: flex;
 	justify-content: space-between;
@@ -33,7 +41,7 @@ body {
 
 .container {
 	margin: 30px auto;
-	width: 350px;
+	width: 400px;
 }
 
 h1 {
@@ -104,6 +112,15 @@ input[type="number"] {
 	width: 100%;
 }
 
+.select-box {
+	border: 1px solid #dedede;
+	border-radius: 2px;
+	display: block;
+	font-size: 16px;
+	padding: 10px;
+	width: 100%;
+}
+
 .btn {
 	cursor: pointer;
 	background-color: #9c88ff;
@@ -117,13 +134,13 @@ input[type="number"] {
 	width: 100%;
 }
 
-.currencyBtnWrapper {
+.selectionBtnWrapper {
 	display: flex;
 	align-items: center;
 	gap: 10px;
 }
 
-.currencyBtn {
+.selectionBtn {
 	cursor: pointer;
 	background-color: white;
 	box-shadow: var(--box-shadow);
@@ -135,7 +152,7 @@ input[type="number"] {
 	width: 100%;
 }
 
-.currencyBtn.selected {
+.selectionBtn.selected {
 	background-color: lightgray;
 }
 
@@ -148,6 +165,8 @@ input[type="number"] {
 	list-style-type: none;
 	padding: 0;
 	margin-bottom: 40px;
+	height: 210px;
+	overflow-y: scroll;
 }
 
 .list li {
@@ -158,7 +177,7 @@ input[type="number"] {
 	justify-content: space-between;
 	position: relative;
 	padding: 10px;
-	margin: 10px 0;
+	margin: 10px 20px;
 }
 
 .list li.plus {
@@ -195,4 +214,24 @@ input[type="number"] {
 
 .debt::after {
 	content: " (In Debt)";
+}
+
+.currency-input {
+	display: flex;
+	align-items: center;
+}
+
+.currency-symbol {
+	font-size: 1.2rem;
+	margin-right: 5px;
+}
+
+.currency-select {
+	padding: 5px;
+	font-size: 1rem;
+}
+
+.amount-input {
+	padding: 5px;
+	font-size: 1rem;
 }

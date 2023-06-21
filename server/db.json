@@ -1,3 +1,46 @@
 {
-  "expenses": []
+  "expenses": [
+    {
+      "expenseName": "sgsdf",
+      "amount": "464",
+      "paymentMethod": "Cash",
+      "category": "Grocery",
+      "currency": "JPY",
+      "location": "Ideo",
+      "participant": "Monchit",
+      "id": 1
+    },
+    {
+      "expenseName": "blabla",
+      "amount": "345",
+      "paymentMethod": "Cash",
+      "category": "",
+      "currency": "",
+      "location": "",
+      "id": 2
+    },
+    {
+      "expenseName": "Comma",
+      "amount": "23523",
+      "paymentMethod": "",
+      "category": "",
+      "currency": "",
+      "location": "",
+      "id": 3
+    }
+  ],
+  "user": [
+    {
+      "id": 1,
+      "name": "Damian",
+      "email": "damian@gmail.com",
+      "password": "password"
+    },
+    {
+      "id": 2,
+      "name": "Monchit",
+      "email": "monchit@gmail.com",
+      "password": "password"
+    }
+  ]
 }

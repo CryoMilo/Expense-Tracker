@@ -1,104 +1,137 @@
-import { useFormik } from "formik";
-import React, { useContext, useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../api/expenseList";
-import { GlobalContext } from "../context/GlobalState";
+import { useForm } from "react-hook-form";
+import InputText from "./Inputs/InputText";
+import InputSelect from "./Inputs/InputSelect";
+import CurrencyInput from "./Inputs/CurrencyInput";
+import useExpenses from "./hooks/useExpenses";
+import { categoryList } from "./categoryList";
 
 function AddTransaction() {
-	const [expenses, setExpenses] = useContext(GlobalContext);
-	// const expenses = useContext(GlobalContext);
+	const [userNames, setUserNames] = useState([]);
+	const { expenses, reloadExpenses } = useExpenses();
 
-	const [selectedCurrency, setSelectedCurrency] = useState("");
+	const [selectedMethod, setSelectedMethod] = useState("");
 
-	const handleCurrencySelect = (currency) => {
-		setSelectedCurrency(currency);
+	const convertToUserNames = (fetchedData) => {
+		return fetchedData?.map((data) => ({
+			label: data.name,
+			value: data.name,
+		}));
 	};
 
-	// Get data with Formik
-	let formik = useFormik({
-		initialValues: {
-			text: "",
-			amount: "",
-			currency: "",
-			category: "",
-		},
-		onSubmit: async (values, { resetForm }) => {
-			try {
-				if (values !== {}) {
-					// Post inserted data to JSON API
-					const response = await api.post("/expenses", values);
+	const getUsers = async () => {
+		try {
+			const response = await api.get("/user");
 
-					// setExpenses new overall expenses
-					const allExpenses = [...expenses, response.data];
-					setExpenses(allExpenses);
-					resetForm();
-				}
-			} catch (error) {
-				console.log("An error has occured " + error);
+			// setExpenses new overall expenses
+			setUserNames(convertToUserNames(response?.data));
+		} catch (error) {
+			console.log("An error has occured " + error);
+		}
+	};
+
+	const addTranscation = async (values) => {
+		try {
+			if (values !== {}) {
+				// Post inserted data to JSON API
+				const response = await api.post("/expenses", values);
 			}
+		} catch (error) {
+			console.log("An error has occured " + error);
+		}
+	};
+
+	useEffect(() => {
+		getUsers();
+	}, []);
+
+	const { handleSubmit, control, setValue } = useForm({
+		defaultValues: {
+			expenseName: "",
+			amount: "",
+			paymentMethod: "",
+			category: "",
+			currency: "",
+			location: "",
 		},
 	});
+	const onSubmit = (values) => addTranscation(values);
+
+	const handlePaymentMethod = (method) => {
+		setValue("paymentMethod", method);
+		setSelectedMethod(method);
+	};
 
 	return (
 		<>
 			<h3>Add new transaction</h3>
-			<form id="form" onSubmit={formik.handleSubmit}>
-				<div className="form-control">
-					<label htmlFor="text">Item</label>
-					<input
-						type="text"
-						value={formik.values.text}
-						onChange={formik.handleChange}
-						id="text"
-						placeholder="Enter item..."
-					/>
+			<form onSubmit={handleSubmit(onSubmit)}>
+				<div>
+					<label htmlFor="text">Transcation</label>
+					<InputText control={control} name="expenseName" />
 				</div>
-				<div className="form-control">
-					<label htmlFor="amount">
-						Amount <br />
-						(negative - expense, positive - income)
-					</label>
-					<input
+				<div>
+					<label htmlFor="text">Amount</label>
+					<InputText
 						type="number"
-						value={formik.values.amount}
-						onChange={formik.handleChange}
-						id="amount"
-						placeholder="Enter amount..."
+						control={control}
+						name="amount"
+						placeholder="Insert Amount"
 					/>
 				</div>
-				<div className="form-control">
-					<label htmlFor="currency">Currency</label>
-					<div className="currencyBtnWrapper">
-						<button
-							className={`currencyBtn ${
-								selectedCurrency === "$" ? "selected" : ""
+				<div>
+					<label htmlFor="paymentMethod">Payment Method</label>
+					<div className="selectionBtnWrapper">
+						<div
+							className={`selectionBtn ${
+								selectedMethod === "Cash" ? "selected" : ""
 							}`}
-							onClick={() => handleCurrencySelect("$")}>
-							$
-						</button>
-						<button
-							className={`currencyBtn ${
-								selectedCurrency === "฿" ? "selected" : ""
+							onClick={() => handlePaymentMethod("Cash")}>
+							Cash
+						</div>
+						<div
+							className={`selectionBtn ${
+								selectedMethod === "Card" ? "selected" : ""
 							}`}
-							onClick={() => handleCurrencySelect("฿")}>
-							฿
-						</button>
-						<button
-							className={`currencyBtn ${
-								selectedCurrency === "₹" ? "selected" : ""
+							onClick={() => handlePaymentMethod("Card")}>
+							Card
+						</div>
+						<div
+							className={`selectionBtn ${
+								selectedMethod === "Bank" ? "selected" : ""
 							}`}
-							onClick={() => handleCurrencySelect("₹")}>
-							₹
-						</button>
+							onClick={() => handlePaymentMethod("Bank")}>
+							Bank
+						</div>
 					</div>
 				</div>
-				<div className="form-control">
+				<div>
 					<label htmlFor="category">Category</label>
-					<input
-						type="text"
-						value={formik.values.category}
-						onChange={formik.handleChange}
-						id="category"
-						placeholder="Enter category..."
+					<InputSelect
+						control={control}
+						name="category"
+						options={categoryList}
+					/>
+				</div>
+				<div>
+					<label htmlFor="category">Currency</label>
+					<CurrencyInput control={control} name="currency" />
+				</div>
+				<div>
+					<label htmlFor="location">Location</label>
+					<InputText
+						control={control}
+						name="location"
+						placeholder="Enter location..."
+					/>
+				</div>
+				<div>
+					<label htmlFor="category">Particiants</label>
+					<InputSelect
+						control={control}
+						name="participant"
+						options={userNames}
 					/>
 				</div>
 				<button type="submit" className="btn">

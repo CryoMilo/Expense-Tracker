@@ -1,28 +1,39 @@
 import "./App.css";
-
-import AddTransaction from "./components/AddTransaction";
-import Balance from "./components/Balance";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
-import IncomeExpense from "./components/IncomeExpense";
-import TransactionList from "./components/TransactionList";
+import ExpenseDetails from "./components/ExpenseDetails";
 import { GlobalProvider } from "./context/GlobalState";
+import Home from "./components/Home";
+import Login from "./components/Auth/Login";
+import { useState } from "react";
+import AddTransaction from "./components/AddTransaction";
 
 function App() {
+	const [isLoggedIn, setLoggedIn] = useState();
+	const [isEdit, setIsEdit] = useState(false);
+
 	return (
 		<GlobalProvider>
-			<div className="App">
-				<Header />
-				<div className="layout">
-					<div className="container">
-						<AddTransaction />
-					</div>
-					<div className="container">
-						<Balance />
-						<IncomeExpense />
-						<TransactionList />
+			<BrowserRouter>
+				<div className="App">
+					{/* <Header /> */}
+					<div className="layout">
+						<Routes>
+							<Route
+								path="/"
+								element={
+									<Login isLoggedIn={isLoggedIn} setLoggedIn={setLoggedIn} />
+								}
+							/>
+							<Route
+								path="/expenses"
+								element={<Home setIsEdit={setIsEdit} />}
+							/>
+							<Route path="/expenses/:id" element={<ExpenseDetails />} />
+						</Routes>
 					</div>
 				</div>
-			</div>
+			</BrowserRouter>
 		</GlobalProvider>
 	);
 }

@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 import { GlobalContext } from "../context/GlobalState";
 
 function Balance() {
-	// const expenses = useContext(GlobalContext);
-	const [expenses, setExpenses] = useContext(GlobalContext);
+	// const expenses = useState([]);
+	const [expenses, setExpenses] = useState([]);
 
 	let amounts = [];
 	for (let i = 0; i < expenses.length; i++) {

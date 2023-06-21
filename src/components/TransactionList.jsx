@@ -1,45 +1,49 @@
-import React from "react";
-import { useContext } from "react";
-import { GlobalContext } from "../context/GlobalState";
 import api from "../api/expenseList";
+import { useNavigate } from "react-router-dom";
+import useExpenses from "./hooks/useExpenses";
 
-function TransactionList() {
-	// const expenses = useContext(GlobalContext);
-	const [expenses, setExpenses] = useContext(GlobalContext);
+function TransactionList({ setIsEdit }) {
+	const navigate = useNavigate();
+	const { expenses, reloadExpenses } = useExpenses();
+
+	const goToEdit = (id) => {
+		setIsEdit(true);
+		navigate(`/expenses/${id}`);
+	};
 
 	async function deleteTransaction(id) {
-		// Delete Visually on Local machine
-		const newExpenses = expenses.filter((single) => {
-			return single.id !== id;
-		});
-
 		// Delete in JSON
 		try {
 			const response = await api.delete(`expenses/${id}`);
-			if (response) {
-				setExpenses(newExpenses);
-			}
+			reloadExpenses();
 		} catch (error) {
 			console.log("An error has occured " + error);
 		}
 	}
 
+	const openDetails = (id) => {
+		navigate(`/expenses/${id}`);
+	};
+
 	return (
 		<>
-			<h3>History</h3>
+			<h3>Transactions</h3>
 			<ul id="list" className="list">
-				{expenses.map((spent) => {
+				{expenses?.map((spent) => {
 					return (
-						<li className={spent.amount < 0 ? "minus" : "plus"} key={spent.id}>
-							{spent.text}
-							<span>
-								{spent.amount < 0 ? "-" : "+"}${Math.abs(spent.amount)}
+						<li className="minus" key={spent.id}>
+							{spent.expenseName}
+							<span onClick={() => openDetails(spent.id)}>
+								${Math.abs(spent.amount)}
 							</span>
 							<button
 								onClick={() => deleteTransaction(spent.id)}
 								className="delete-btn">
 								x
 							</button>
+							{/* <button onClick={() => goToEdit(spent.id)} className="delete-btn">
+								%
+							</button> */}
 						</li>
 					);
 				})}
