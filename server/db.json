@@ -1,13 +1,12 @@
 {
   "expenses": [
     {
-      "expenseName": "Lemon",
-      "amount": "4535",
-      "paymentMethod": "Cash",
-      "category": "Grocery",
-      "currency": "£",
-      "location": "Aye Yadanar",
-      "participant": "Damian",
+      "expenseName": "Lemon23",
+      "amount": "2523",
+      "paymentMethod": "",
+      "category": "",
+      "currency": "",
+      "location": "",
       "id": 1
     }
   ],

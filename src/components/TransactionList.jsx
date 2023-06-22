@@ -2,6 +2,7 @@ import api from "../api/expenseList";
 import { useNavigate } from "react-router-dom";
 import useExpenses from "./hooks/useExpenses";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 function TransactionList({ isTransactionUpdated }) {
 	const navigate = useNavigate();
@@ -17,6 +18,7 @@ function TransactionList({ isTransactionUpdated }) {
 		try {
 			const response = await api.delete(`expenses/${id}`);
 			response.status === 200 && reloadExpenses();
+			response.status === 200 && toast.error("Expense Deleted!");
 		} catch (error) {
 			console.log("An error has occured " + error);
 		}

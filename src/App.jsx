@@ -32,7 +32,18 @@ function App() {
 					</div>
 				</div>
 			</BrowserRouter>
-			<ToastContainer />
+			<ToastContainer
+				position="top-center"
+				autoClose={3000}
+				hideProgressBar={true}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover={false}
+				theme="light"
+			/>
 		</GlobalProvider>
 	);
 }

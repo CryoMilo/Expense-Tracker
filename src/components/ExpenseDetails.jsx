@@ -5,6 +5,7 @@ import InputText from "./Inputs/InputText";
 import InputSelect from "./Inputs/InputSelect";
 import CurrencyInput from "./Inputs/CurrencyInput";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const categoryList = [
 	{
@@ -55,6 +56,7 @@ function ExpenseDetails({ isEdit }) {
 				// Put updated data to the JSON API
 				const response = await api.put(`/expenses/${values.id}`, values);
 				response.status === 200 && navigate(`/expenses`);
+				response.status === 200 && toast.info("Expense Edited!");
 			}
 		} catch (error) {
 			console.log("An error has occurred: " + error);
@@ -91,6 +93,11 @@ function ExpenseDetails({ isEdit }) {
 
 	return (
 		<div className="container">
+			<div
+				style={{ opacity: 0.5, cursor: "pointer" }}
+				onClick={() => navigate("/expenses")}>
+				Back
+			</div>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<div>
 					<label htmlFor="text">Transaction</label>

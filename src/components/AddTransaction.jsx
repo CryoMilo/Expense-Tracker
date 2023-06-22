@@ -36,7 +36,7 @@ function AddTransaction({ onTransactionUpdate }) {
 				// Post inserted data to JSON API
 				const response = await api.post("/expenses", values);
 				response.status === 201 && onTransactionUpdate();
-				toast("Expense Created!");
+				response.status === 201 && toast.success("Expense Created!");
 			}
 		} catch (error) {
 			console.log("An error has occured " + error);
