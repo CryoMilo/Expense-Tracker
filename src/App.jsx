@@ -5,6 +5,8 @@ import { GlobalProvider } from "./context/GlobalState";
 import Home from "./components/Home";
 import Login from "./components/Auth/Login";
 import { useState } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
 	const [isLoggedIn, setLoggedIn] = useState(false);
@@ -30,6 +32,7 @@ function App() {
 					</div>
 				</div>
 			</BrowserRouter>
+			<ToastContainer />
 		</GlobalProvider>
 	);
 }

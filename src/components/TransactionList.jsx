@@ -34,7 +34,9 @@ function TransactionList({ isTransactionUpdated }) {
 					return (
 						<li className="minus" key={spent.id}>
 							{spent.expenseName}
-							<span onClick={() => openDetails(spent.id)}>
+							<span
+								style={{ cursor: "pointer" }}
+								onClick={() => openDetails(spent.id)}>
 								{spent.currency}
 								{Math.abs(spent.amount)}
 							</span>
