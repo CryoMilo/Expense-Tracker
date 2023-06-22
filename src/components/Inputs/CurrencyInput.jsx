@@ -21,18 +21,12 @@ const CurrencyInput = ({ control, name }) => {
 							className="currency-select"
 							defaultValue={currencyOptions[0].value}>
 							{currencyOptions.map((option) => (
-								<option key={option.value} value={option.value}>
+								<option key={option.value} value={option.label}>
 									{option.label}
 								</option>
 							))}
 						</select>
 					</span>
-					<input
-						type="number"
-						className="amount-input"
-						step="0.01"
-						{...field}
-					/>
 				</div>
 			)}
 		/>

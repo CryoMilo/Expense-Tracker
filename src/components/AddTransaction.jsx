@@ -4,12 +4,10 @@ import { useForm } from "react-hook-form";
 import InputText from "./Inputs/InputText";
 import InputSelect from "./Inputs/InputSelect";
 import CurrencyInput from "./Inputs/CurrencyInput";
-import useExpenses from "./hooks/useExpenses";
 import { categoryList } from "./categoryList";
 
-function AddTransaction() {
+function AddTransaction({ onTransactionUpdate }) {
 	const [userNames, setUserNames] = useState([]);
-	const { expenses, reloadExpenses } = useExpenses();
 
 	const [selectedMethod, setSelectedMethod] = useState("");
 
@@ -31,11 +29,12 @@ function AddTransaction() {
 		}
 	};
 
-	const addTranscation = async (values) => {
+	const addTransaction = async (values) => {
 		try {
 			if (values !== {}) {
 				// Post inserted data to JSON API
 				const response = await api.post("/expenses", values);
+				response.status === 201 && onTransactionUpdate();
 			}
 		} catch (error) {
 			console.log("An error has occured " + error);
@@ -56,7 +55,7 @@ function AddTransaction() {
 			location: "",
 		},
 	});
-	const onSubmit = (values) => addTranscation(values);
+	const onSubmit = (values) => addTransaction(values);
 
 	const handlePaymentMethod = (method) => {
 		setValue("paymentMethod", method);
@@ -68,7 +67,7 @@ function AddTransaction() {
 			<h3>Add new transaction</h3>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<div>
-					<label htmlFor="text">Transcation</label>
+					<label htmlFor="text">Transaction</label>
 					<InputText control={control} name="expenseName" />
 				</div>
 				<div>

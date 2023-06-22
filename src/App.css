@@ -165,7 +165,7 @@ input[type="number"] {
 	list-style-type: none;
 	padding: 0;
 	margin-bottom: 40px;
-	height: 210px;
+	height: 60vh;
 	overflow-y: scroll;
 }
 
@@ -234,4 +234,11 @@ input[type="number"] {
 .amount-input {
 	padding: 5px;
 	font-size: 1rem;
+}
+
+.compact-card {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
 }

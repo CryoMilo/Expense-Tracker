@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import "./login.css";
 import api from "../../api/expenseList";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = ({ setLoggedIn }) => {
+	const navigate = useNavigate();
 	const [users, setUsers] = useState([]);
 	const getUsers = async () => {
 		const response = await api.get("/user");
@@ -19,6 +21,8 @@ const Login = () => {
 		const userExists = checkUserData(data);
 		if (userExists) {
 			console.log("Login successful");
+			setLoggedIn(true);
+			navigate("/expenses");
 		} else {
 			console.log("Invalid credentials");
 		}

@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../api/expenseList";
-import { GlobalContext } from "../context/GlobalState";
 import { useForm } from "react-hook-form";
 import InputText from "./Inputs/InputText";
 import InputSelect from "./Inputs/InputSelect";
@@ -23,7 +22,7 @@ const categoryList = [
 ];
 
 function ExpenseDetails({ isEdit }) {
-	const [singleExpense, setSingleExpense] = useState([]);
+	const [singleExpense, setSingleExpense] = useState({});
 	const [userNames, setUserNames] = useState([]);
 
 	const navigate = useNavigate();
@@ -78,6 +77,7 @@ function ExpenseDetails({ isEdit }) {
 			if (response?.data) {
 				reset({ ...response.data });
 				setSingleExpense(response.data);
+				setSelectedMethod(response.data.paymentMethod);
 			}
 		} catch (error) {
 			console.log("An error has occurred: " + error);
@@ -90,10 +90,10 @@ function ExpenseDetails({ isEdit }) {
 	};
 
 	return (
-		<>
+		<div className="container">
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<div>
-					<label htmlFor="text">Transcation</label>
+					<label htmlFor="text">Transaction</label>
 					<InputText control={control} name="expenseName" />
 				</div>
 				<div>
@@ -163,7 +163,7 @@ function ExpenseDetails({ isEdit }) {
 					Edit
 				</button>
 			</form>
-		</>
+		</div>
 	);
 }
 

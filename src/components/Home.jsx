@@ -1,14 +1,21 @@
+import { useState } from "react";
 import AddTransaction from "./AddTransaction";
 import TransactionList from "./TransactionList";
 
-const Home = ({ setIsEdit }) => {
+const Home = () => {
+	const [isTransactionUpdated, setTransactionUpdated] = useState(false);
+
+	const handleTransactionUpdate = () => {
+		setTransactionUpdated(true);
+	};
+
 	return (
 		<div className="layout">
 			<div className="container">
-				<AddTransaction />
+				<AddTransaction onTransactionUpdate={handleTransactionUpdate} />
 			</div>
 			<div className="container">
-				<TransactionList setIsEdit={setIsEdit} />
+				<TransactionList isTransactionUpdated={isTransactionUpdated} />
 			</div>
 		</div>
 	);

@@ -8,7 +8,6 @@ const useExpenses = () => {
 		try {
 			const response = await api.get("/expenses");
 			setExpenses(response.data);
-			console.log(response.data);
 		} catch (error) {
 			console.log("An error has occurred: " + error);
 		}
@@ -18,9 +17,17 @@ const useExpenses = () => {
 		getTransactions();
 	}, []);
 
+	const reloadExpenses = async () => {
+		try {
+			await getTransactions();
+		} catch (error) {
+			console.log("An error has occurred: " + error);
+		}
+	};
+
 	return {
 		expenses,
-		reloadExpenses: getTransactions,
+		reloadExpenses,
 	};
 };
 
