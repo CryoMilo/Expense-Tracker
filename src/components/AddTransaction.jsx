@@ -45,6 +45,7 @@ function AddTransaction({ onTransactionUpdate }) {
 
 	useEffect(() => {
 		getUsers();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const { handleSubmit, control, setValue } = useForm({

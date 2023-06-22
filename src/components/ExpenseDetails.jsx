@@ -66,6 +66,7 @@ function ExpenseDetails({ isEdit }) {
 	useEffect(() => {
 		getUsers();
 		getSingleExpense();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const { handleSubmit, control, setValue, reset } = useForm({
